@@ -22,7 +22,7 @@ int main(array<System::String ^> ^args)
 
 	SYSTEMTIME st, lt;
 
-	GetSystemTime(&st);
+	GetSystemTime(&st); // UTC-based (does not consider DST = daylight saving time)
 	GetLocalTime(&lt); // considers summer or winter time
 
 	String^ strTimeStamp = lt.wYear.ToString("0000") + "-" + lt.wMonth.ToString("00") + "-" + lt.wDay.ToString("00")
