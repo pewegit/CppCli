@@ -30,6 +30,22 @@ int main(array<System::String ^> ^args)
 	Console::WriteLine(strTimeStamp);
 	Console::WriteLine("Time-Stamp [{0}:{1,-2}:{2,2}:{3,2}:{4,2}:{5,2}.{6,3}]", lt.wYear, lt.wMonth, lt.wDay, lt.wHour, lt.wMinute, lt.wSecond, lt.wMilliseconds);
 
+	// Heap API check
+	typedef struct
+	{
+		int status;
+		int handle;
+		double value1;
+		double value2;
+		double value3;
+	} T_myType;
+	HANDLE hHeap = HeapCreate(HEAP_NO_SERIALIZE, 1000, 1000000);
+	T_myType *p = (T_myType *) HeapAlloc(hHeap, HEAP_NO_SERIALIZE, 10000000); // too large
+	p += 0x12345678;
+	p[17].value3 = -17.42; // throws access violation
+
+	BOOL retVal = HeapDestroy(hHeap);
+
 
     return 0;
 }
